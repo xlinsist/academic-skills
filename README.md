@@ -40,7 +40,7 @@ python3 skills/deep-research/scripts/verify_openalex.py --query "FlashAttention-
 
 | Skill | Input | Output | Note |
 |---|---|---|---|
-| `plot-figure` | 用户提供比较方法和数据 | 一个可直接运行的画图 Python 脚本（基于预设的图表参数） | 一个比较方法的示例： `triton-riscv` vs `triton-cpu` 在 matmul 的输入尺寸 `128/256/512` 下执行时间；数据输入的格式不 |
+| `plot-figure` | 用户提供比较方法和数据 | 一个可直接运行的画图 Python 脚本（基于预设的图表参数） | 一个比较方法的示例： `triton-riscv` vs `triton-cpu` 在 matmul 的输入尺寸 `128/256/512` 下执行时间；数据输入的格式不限 |
 | `weekly-report` | 一份实验记录 | 周报结构的模板 | 这个实验记录文件一般为 AI 开发过程中的记录 |
 
 ## Contributing
