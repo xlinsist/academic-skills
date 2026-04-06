@@ -1,28 +1,49 @@
 # academic-skills
 
-Shareable Codex skills for academic workflows.
+Reusable Codex skills for academic research, writing, and reporting.
 
-This repository currently includes:
-- **Academic Writing**
-  - `logic-check`: thesis logic consistency and argument completeness checklist.
-  - `polish`: academic thesis polishing rules for LaTeX/PDF-style drafts.
-- **Academic Reading**
-  - `deep-research`: topic-driven literature survey workflow (OpenAlex-first + structured report).
-  - `read-paper`: structured deep-reading workflow for academic papers (PDF/LaTeX).
-- **Preparation for Group Meeting**
-  - `plot-figure`: standardized grouped-bar plotting template for baseline comparisons.
-  - `weekly-report`: staged technical weekly report workflow.
+![Skills](https://img.shields.io/badge/skills-6-blue)
+![Language](https://img.shields.io/badge/language-zh--CN%20%7C%20en-lightgrey)
+![Status](https://img.shields.io/badge/status-active-brightgreen)
 
-## Skill Usage
+## Why this repo
 
-| Skill | Input | Output | Note |
-|---|---|---|---|
-| `logic-check` | 一篇论文 | 逻辑问题与改进建议清单 | |
-| `polish` | 一篇论文 | 语言与术语层面的润色建议| 建议在logic-check后再做polish |
-| `deep-research` | 用户给定调研关键词与调研范围 | 结构化调研报告 | 需要配置openalex；建议在 `/plan` 模式下使用，有助于明确调研细节 |
-| `read-paper` | 一篇论文 | 结构化精读笔记 | |
-| `plot-figure` | 用户提供比较方法和数据 | 一个可直接运行的画图 Python 脚本（基于预设的图表参数） | 一个比较方法的示例： `triton-riscv` vs `triton-cpu` 在 matmul 的输入尺寸 `128/256/512` 下执行时间；数据输入的格式不 |
-| `weekly-report` | 一份实验记录 | 周报结构的模板 | 这个实验记录文件一般为 AI 开发过程的记录 |
+- Consistent outputs: each skill has stable input/output expectations.
+- Reusable templates: copy-ready structure for common academic workflows.
+- Academic-focused: tuned for paper reading, polishing, logic checking, reporting, and figure plotting.
+
+## Quick Start (30s)
+
+```bash
+git clone git@github.com:xlinsist/academic-skills.git
+cd academic-skills
+CODEX_HOME="${CODEX_HOME:-$HOME/.codex}" && mkdir -p "$CODEX_HOME/skills" && cp -r skills/* "$CODEX_HOME/skills/"
+```
+
+Optional quick check:
+
+```bash
+python3 skills/deep-research/scripts/verify_openalex.py --query "FlashAttention-3" --per-page 5
+```
+
+## Skill I/O Summary
+
+| Skill | Input | Output |
+|---|---|---|
+| `plot-figure` | 用户提供比较方法和数据（例如 `triton-riscv` vs `triton-cpu` 在 matmul 的输入尺寸 `128/256/512` 下执行时间） | 一个可直接运行的画图 Python 脚本（基于模板） |
+| `deep-research` | 用户在 `/plan` 模式下给定调研关键词与范围（参考 `skills/deep-research/references/GUIDE.md`） | 结构化调研报告（`report.md`） |
+| `weekly-report` | 一个实验记录文件（如 `EXPER.md`）及必要补充上下文 | 按周报固定结构浓缩后的报告 |
+| `logic-check` | 一篇论文（PDF/LaTeX/Word） | 逻辑问题与改进建议清单 |
+| `polish` | 一篇论文（PDF/LaTeX/Word） | 语言与术语层面的润色建议（或按请求给出修改稿） |
+| `read-paper` | 一篇论文（PDF/LaTeX） | 结构化精读笔记（含审稿人视角问题汇总） |
+
+## Workflow Shape
+
+```text
+Input artifacts (paper / EXPER.md / metrics)
+        -> select skill
+        -> structured output (report / notes / script / suggestions)
+```
 
 ## Repository Layout
 
@@ -55,24 +76,22 @@ academic-skills/
       SKILL.md
 ```
 
-## Install to Codex
-
-From this repo root:
+## Install to Codex (manual)
 
 ```bash
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 mkdir -p "$CODEX_HOME/skills"
+cp -r skills/deep-research "$CODEX_HOME/skills/"
+cp -r skills/weekly-report "$CODEX_HOME/skills/"
+cp -r skills/plot-figure "$CODEX_HOME/skills/"
 cp -r skills/logic-check "$CODEX_HOME/skills/"
 cp -r skills/polish "$CODEX_HOME/skills/"
-cp -r skills/deep-research "$CODEX_HOME/skills/"
 cp -r skills/read-paper "$CODEX_HOME/skills/"
-cp -r skills/plot-figure "$CODEX_HOME/skills/"
-cp -r skills/weekly-report "$CODEX_HOME/skills/"
 ```
 
-## Quick Check
+## Contributing
 
-To test the validation of `openalex` in deep-research:
-```bash
-python3 skills/deep-research/scripts/verify_openalex.py --query "FlashAttention-3" --per-page 5
-```
+- Keep skill names lowercase with hyphen style (example: `read-paper`).
+- Each skill folder must include `SKILL.md` and optional `scripts/`, `references/`, `agents/`.
+- Update `Skill I/O Summary` and `Repository Layout` when adding or renaming skills.
+- Keep instructions concise and execution-oriented.
