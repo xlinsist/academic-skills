@@ -1,5 +1,5 @@
 ---
-name: plot_figure
+name: plot-figure
 description: Use when users need a standardized grouped bar chart template for baseline-vs-method comparisons, with fixed axis/legend/color/data-label conventions and user-provided methods/data.
 ---
 

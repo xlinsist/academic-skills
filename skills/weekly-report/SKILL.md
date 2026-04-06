@@ -1,9 +1,9 @@
 ---
-name: report
+name: weekly-report
 description: "Use when the user asks to write weekly reports, milestone summaries, staged progress reports, or phase digests from technical artifacts (for example `*report*.md`, changelog notes, test logs, and conversion/run commands). Produce a structured report with: (1) staged conclusions, (2) function-level change mapping by file and function, and (3) copy-paste one-click terminal commands for key milestones."
 ---
 
-# Report
+# Weekly Report
 
 ## Workflow
 
