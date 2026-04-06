@@ -1,0 +1,4 @@
+interface:
+  display_name: "Report Writer"
+  short_description: "Write weekly/stage reports from technical progress"
+  default_prompt: "Summarize this report into staged weekly progress with function-level changes and runnable commands."
