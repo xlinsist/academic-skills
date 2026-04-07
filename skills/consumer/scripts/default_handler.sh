@@ -3,6 +3,8 @@ set -euo pipefail
 
 # Inputs are provided via environment variables by consumer_loop.sh.
 # Required: TASK_ID, TASK_GOAL, TASK_METHOD, TASK_VERIFICATION
+# Optional SSD context: TASK_SCOPE_IN, TASK_SCOPE_OUT, TASK_CONSTRAINTS,
+# TASK_DONE_DEFINITION, TASK_RISK, TASK_COMPLEXITY, TASK_CREATED
 
 extract_backtick_cmd() {
   local text="$1"

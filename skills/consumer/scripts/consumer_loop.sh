@@ -99,11 +99,16 @@ mark_blocked() {
 append_record_pass() {
   local task_id="$1"
   local goal="$2"
-  local method="$3"
-  local verification="$4"
-  local complexity="$5"
-  local created="$6"
-  local notes="$7"
+  local scope_in="$3"
+  local scope_out="$4"
+  local constraints="$5"
+  local method="$6"
+  local verification="$7"
+  local done_definition="$8"
+  local risk="$9"
+  local complexity="${10}"
+  local created="${11}"
+  local notes="${12}"
   local ts
   ts="$(date -u '+%Y-%m-%d %H:%M UTC')"
 
@@ -111,10 +116,15 @@ append_record_pass() {
 
 ## ${task_id} | ${ts}
 - goal: ${goal}
+- scope_in: ${scope_in}
+- scope_out: ${scope_out}
+- constraints: ${constraints}
 - method: ${method}
 - verification:
   - command/check: ${verification}
   - pass criteria: command exits with code 0
+- done_definition: ${done_definition}
+- risk: ${risk}
 - result: pass
 - artifacts: N/A
 - notes: complexity=${complexity}; created=${created}; ${notes}
@@ -150,12 +160,17 @@ while true; do
   original_line="$(printf '%s\n' "$claimed_blob" | sed -n '2p')"
   task_id="$(printf '%s\n' "$original_line" | sed -nE 's/^- \[ \] (T-[0-9]{4}) .*/\1/p')"
   goal="$(extract_field "$original_line" 'goal' | trim)"
+  scope_in="$(extract_field "$original_line" 'scope_in' | trim)"
+  scope_out="$(extract_field "$original_line" 'scope_out' | trim)"
+  constraints="$(extract_field "$original_line" 'constraints' | trim)"
   method="$(extract_field "$original_line" 'method' | trim)"
   verification="$(extract_field "$original_line" 'verification' | trim)"
+  done_definition="$(extract_field "$original_line" 'done_definition' | trim)"
+  risk="$(extract_field "$original_line" 'risk' | trim)"
   complexity="$(extract_field "$original_line" 'complexity' | trim)"
   created="$(extract_field "$original_line" 'created' | trim)"
 
-  if [[ -z "$task_id" || -z "$goal" || -z "$verification" ]]; then
+  if [[ -z "$task_id" || -z "$goal" || -z "$scope_in" || -z "$scope_out" || -z "$constraints" || -z "$method" || -z "$verification" || -z "$done_definition" || -z "$risk" ]]; then
     log WARN "task parse failed (line $line_no), moving to blocked"
     exec 9>"$LOCK_FILE"
     if flock -w 2 9; then
@@ -172,8 +187,13 @@ while true; do
   handler_output="$(
     TASK_ID="$task_id" \
     TASK_GOAL="$goal" \
+    TASK_SCOPE_IN="$scope_in" \
+    TASK_SCOPE_OUT="$scope_out" \
+    TASK_CONSTRAINTS="$constraints" \
     TASK_METHOD="$method" \
     TASK_VERIFICATION="$verification" \
+    TASK_DONE_DEFINITION="$done_definition" \
+    TASK_RISK="$risk" \
     TASK_COMPLEXITY="$complexity" \
     TASK_CREATED="$created" \
     ROOT_DIR="$ROOT_DIR" \
@@ -186,7 +206,7 @@ while true; do
   if flock -w 2 9; then
     if [[ "$rc" -eq 0 ]]; then
       remove_claimed_line "$line_no"
-      append_record_pass "$task_id" "$goal" "$method" "$verification" "$complexity" "$created" "${handler_output}"
+      append_record_pass "$task_id" "$goal" "$scope_in" "$scope_out" "$constraints" "$method" "$verification" "$done_definition" "$risk" "$complexity" "$created" "${handler_output}"
       log INFO "${task_id} completed and removed from queue"
     else
       mark_blocked "$line_no"
