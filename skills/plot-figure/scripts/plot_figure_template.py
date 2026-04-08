@@ -34,16 +34,41 @@ BASELINE_COLOR = "#182345"
 PRIMARY_COMPARE_COLOR = "#FFC000"
 EXTRA_COLORS = ["#4D74B8", "#8AB6F9", "#F28E2B", "#76B7B2", "#59A14F", "#E15759"]
 
-plt.rcParams.update(
-    {
-        "font.size": 14,
-        "axes.titlesize": 18,
-        "axes.labelsize": 16,
-        "legend.fontsize": 14,
-        "xtick.labelsize": 14,
-        "ytick.labelsize": 14,
-    }
-)
+# Set2-like palette, aligned with references/plot_figure_multi_method_reference.py.
+SET2_COLORS = [
+    "#66C2A5",
+    "#FC8D62",
+    "#8DA0CB",
+    "#E78AC3",
+    "#A6D854",
+    "#FFD92F",
+    "#E5C494",
+    "#B3B3B3",
+]
+
+DEFAULT_STYLE = {
+    "figsize": (9, 6),
+    "dpi": 200,
+    "font.size": 14,
+    "axes.titlesize": 18,
+    "axes.labelsize": 16,
+    "legend.fontsize": 14,
+    "xtick.labelsize": 14,
+    "ytick.labelsize": 14,
+    "bar_label_fontsize": 10,
+}
+
+MULTI_METHOD_STYLE = {
+    "figsize": (24, 10),
+    "dpi": 300,
+    "font.size": 20,
+    "axes.titlesize": 34,
+    "axes.labelsize": 32,
+    "legend.fontsize": 28,
+    "xtick.labelsize": 26,
+    "ytick.labelsize": 22,
+    "bar_label_fontsize": 18,
+}
 
 
 def validate_inputs(x_ticks, methods, baseline):
@@ -66,7 +91,10 @@ def build_colors(method_names, baseline):
     colors[baseline] = BASELINE_COLOR
 
     compare_names = [m for m in method_names if m != baseline]
-    palette = [PRIMARY_COMPARE_COLOR] + EXTRA_COLORS
+    if len(compare_names) > 2:
+        palette = SET2_COLORS
+    else:
+        palette = [PRIMARY_COMPARE_COLOR] + EXTRA_COLORS
 
     for idx, name in enumerate(compare_names):
         colors[name] = palette[idx % len(palette)]
@@ -78,18 +106,32 @@ def plot_grouped_bars(title, x_label, y_label, output, x_ticks, methods, baselin
     validate_inputs(x_ticks, methods, baseline)
 
     method_names = [baseline] + [m for m in methods.keys() if m != baseline]
+    n_compare = len(method_names) - 1
+    style = MULTI_METHOD_STYLE if n_compare > 2 else DEFAULT_STYLE
+
+    plt.rcParams.update(
+        {
+            "font.size": style["font.size"],
+            "axes.titlesize": style["axes.titlesize"],
+            "axes.labelsize": style["axes.labelsize"],
+            "legend.fontsize": style["legend.fontsize"],
+            "xtick.labelsize": style["xtick.labelsize"],
+            "ytick.labelsize": style["ytick.labelsize"],
+        }
+    )
+
     colors = build_colors(method_names, baseline)
 
     x = np.arange(len(x_ticks))
     n_methods = len(method_names)
     width = 0.8 / n_methods
 
-    plt.figure(figsize=(9, 6))
+    plt.figure(figsize=style["figsize"])
 
     for i, name in enumerate(method_names):
         offset = (i - (n_methods - 1) / 2) * width
         bars = plt.bar(x + offset, methods[name], width, label=name, color=colors[name])
-        plt.bar_label(bars, fmt="%.2f", padding=3, fontsize=10)
+        plt.bar_label(bars, fmt="%.2f", padding=3, fontsize=style["bar_label_fontsize"])
 
     plt.xticks(x, x_ticks)
     plt.xlabel(x_label)
@@ -98,7 +140,7 @@ def plot_grouped_bars(title, x_label, y_label, output, x_ticks, methods, baselin
     plt.legend()
     plt.grid(axis="y", linestyle="--", alpha=0.3)
     plt.tight_layout()
-    plt.savefig(output, dpi=200)
+    plt.savefig(output, dpi=style["dpi"])
     plt.show()
 
 

@@ -22,13 +22,18 @@ description: Use when users need a standardized grouped bar chart template for b
 - Legend：必须显示 baseline 与其它方法名称。
 - 配色：
   - baseline：`#182345`
-  - 对比方法主色：`#FFC000`
-  - 若方法超过 2 个，在此两色基础上扩展，但 baseline 保持 `#182345`。
+  - 当仅有 1 个对比方法时：对比方法主色 `#FFC000`
+  - 当对比方法大于 2 个时：参考 `references/plot_figure_multi_method_reference.py`，对比方法使用 `Set2` 风格扩展色盘（baseline 仍保持 `#182345`）。
 - 柱上数值：必须展示，默认 `fmt='%.2f'`、`padding=3`、`fontsize=10`。
 - 版式：
-  - `figsize=(9, 6)`
-  - `grid(axis='y', linestyle='--', alpha=0.3)`
-  - 统一较大字体（见模板脚本 `plt.rcParams.update(...)`）。
+  - 常规（baseline + 1 方法）：
+    - `figsize=(9, 6)`
+    - `grid(axis='y', linestyle='--', alpha=0.3)`
+    - 字体遵循模板默认 rcParams
+  - 多方法（对比方法 > 2）：
+    - 参考 `references/plot_figure_multi_method_reference.py`
+    - 推荐 `figsize=(24, 10)`、较大字体（如 x/y 轴 32、x tick 26、y tick 22、legend 28）
+    - 输出建议 `dpi=300`，并在柱顶显示较大数据标签
 
 ## 工作流程
 
@@ -42,6 +47,7 @@ description: Use when users need a standardized grouped bar chart template for b
 2. 使用模板脚本生成图：
 - 从 `scripts/plot_figure_template.py` 拷贝一份到当前工作目录。
 - 仅替换数据区与元信息区，不改动模板风格约束。
+- 当对比方法 > 2 时，启用模板中的多方法样式分支（已对齐 reference 的配色/画布/字体策略）。
 
 3. 基础校验：
 - 检查每个方法数据长度是否等于 x 轴长度。
@@ -52,3 +58,4 @@ description: Use when users need a standardized grouped bar chart template for b
 
 - 模板脚本：`scripts/plot_figure_template.py`
 - 模板说明：`references/template_notes.md`
+- 多方法样式参考：`references/plot_figure_multi_method_reference.py`
