@@ -31,7 +31,7 @@ python3 skills/deep-research/scripts/verify_openalex.py --query "FlashAttention-
 | Academic Writing | `plot-figure` | 用户提供比较方法和数据 | 一个可直接运行的画图 Python 脚本（基于预设图表参数） | |
 | Academic Writing | `weekly-report` | AI生成的实验记录 | 周报结构的模板 |  |
 | Repository Analysis | `reproduce` | Github 项目 | 复现仓库得到实验结果 |构建本地环境、先跑 MVP、再沉淀到 RESULT.md |
-| Repository Analysis | `create-task` | Github 项目 | 给上游新建一个 issue |  |
+| Repository Analysis | `create-task` | Github 项目 | 根据已有 bug 创建一个 issue 模板 | 装了 gh 后可以给上游直接提 issue |
 | Repository Analysis | `analysis-module` | Github 项目 | 对模块的结构化分析 |  |
 | Task Orchestration | `producer` | 对话需求与约束 | SSD 结构化任务条目（写入 `TASK_QUEUE.md`） | |
 | Task Orchestration | `consumer` | `TASK_QUEUE.md` 中的 SSD 待办任务 | 闭环执行并归档到 `TASK_RECORD.md` |  |
