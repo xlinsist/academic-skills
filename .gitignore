@@ -4,3 +4,5 @@ __pycache__/
 .task_queue.lock
 .consumer_loop.log
 .omx/
+TASK_QUEUE.md
+TASK_RECORD.md
