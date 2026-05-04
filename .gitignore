@@ -3,3 +3,4 @@ __pycache__/
 .DS_Store
 .task_queue.lock
 .consumer_loop.log
+.omx/

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Create Task"
+  short_description: "Write a PR-oriented GitHub issue with a 5-step task list, background, deliverables, and timeline."
+  default_prompt: "Write a GitHub issue for this repository that guides a developer to submit a specific PR. Use the sections Deliverables, Background, Task Description, and Timeline. Keep Task Description to 5 steps or fewer."
